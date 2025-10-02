@@ -1,8 +1,12 @@
 .idea/*
+
 frontend/.idea/*
 frontend/node_modules/*
+
 backend/.idea/*
 backend/bin/*
 backend/obj/*
+backend/appsettings.json
+
 .DS_Store
 .env*
