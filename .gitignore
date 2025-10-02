@@ -5,4 +5,4 @@ backend/.idea/*
 backend/bin/*
 backend/obj/*
 .DS_Store
-
+.env*
