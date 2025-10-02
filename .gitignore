@@ -1,0 +1,8 @@
+.idea/*
+frontend/.idea/*
+frontend/node_modules/*
+backend/.idea/*
+backend/bin/*
+backend/obj/*
+.DS_Store
+
