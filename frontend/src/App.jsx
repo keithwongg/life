@@ -2,14 +2,18 @@ import {useState, useEffect} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import {callBackend} from "./lib/api.js";
 
 function App() {
     const [count, setCount] = useState(0)
     const [data, setData] = useState([])
     useEffect(() => {
-        fetch("/api/items")
-            .then(res => res.json())
-            .then(data => setData(data))
+        let respData = callBackend("items")
+        respData.then((d) => {
+            if (d !== null && d !== undefined) {
+                setData(d ?? [])
+            }
+        })
     }, []);
     
     return (
@@ -33,8 +37,8 @@ function App() {
             </div>
             
             <div>
-                {data.map((item) => {
-                    return <p>Item: {item}</p>
+                {data.map((item, i) => {
+                    return <p key={"item"+ `-${i}`}>Item: {item}</p>
                 })}
             </div>
             
