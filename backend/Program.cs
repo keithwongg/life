@@ -1,3 +1,5 @@
+using backend;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,21 +9,22 @@ builder.Services.AddControllersWithViews();
 //     configuration.RootPath = "ClientApp/dist"; // Path to your built SPA files
 // });
 
-var  developmentOrigin = "_devOrigins";
-var  prodOrigin = "_prodOrigins";
+// specify url in appsettings
+var appSettings = builder.Configuration.GetSection("ApiSettings");
+var frontEndUrl = appSettings["FrontEndUrl"];
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(developmentOrigin,
+    options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins("https://localhost:5173")
+            policy.WithOrigins(frontEndUrl)
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials();
         });
-    
 });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,7 +33,6 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-    app.UseCors(developmentOrigin);
 }
 
 app.UseHttpsRedirection();
@@ -39,6 +41,7 @@ app.UseAuthorization();
 app.MapStaticAssets();
 app.UseStaticFiles();
 // app.UseSpaStaticFiles();
+app.UseCors();
 
 app.MapControllerRoute(
     name: "default",
